@@ -18,10 +18,10 @@ fi
 valgrind --leak-check=full --error-exitcode=1 ./$program 
 
 valgrind_output=$?
-if [[ ($valgrind_output -eq "0" ) ]];then
+if [[ ( $valgrind_output -eq "0" ) ]];then
 	echo "Memory leaks PASS"
 else
- echo "Memory leaks FAIL" 
+ 	echo "Memory leaks FAIL" 
 	$t=1
 fi
 valgrind --tool=helgrind --error-exitcode=1 ./$program
@@ -30,16 +30,18 @@ if [[ ($helgrind_output -eq "0") ]];then
 	echo "thread race PASS"
 else 
 	echo "thread race FAIL"
- $d=1
+ 	$d=1
 fi
-if [[ ($d -eq 0)&&($t1 -eq 1) ]];then
+if [[ ($d -eq 0)&&($t -eq 1) ]];then
 	exit 2
-elif [[ ($d -eq 1)&&($t1 -eq 0) ]];then
+elif [[ ($d -eq 1)&&($t -eq 0) ]];then
 	exit 1
-elif [[ ($d -eq 0)&&($t1 -eq 0) ]];then
+elif [[ ($d -eq 0)&&($t -eq 0) ]];then
 	exit 0
-elif [[ ($d -eq 1)&&($t1 -eq 1) ]];then
+elif [[ ($d -eq 1)&&($t -eq 1) ]];then
 	exit 3
+else
+	exit 0
 
 fi
 exit 0
