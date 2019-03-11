@@ -32,16 +32,14 @@ else
 	echo "thread race FAIL"
  	$d=1
 fi
-if [[ ($d -eq 0)&&($t -eq 1) ]];then
+if [[ ($helgrind_output -eq 0)&&($valgrind_output -eq 1) ]];then
 	exit 2
-elif [[ ($d -eq 1)&&($t -eq 0) ]];then
+elif [[ ($helgrind_output -eq 1)&&($valgrind_output -eq 0) ]];then
 	exit 1
-elif [[ ($d -eq 0)&&($t -eq 0) ]];then
+elif [[ ($helgrind_output -eq 0)&&($valgrind_output -eq 0) ]];then
 	exit 0
-elif [[ ($d -eq 1)&&($t -eq 1) ]];then
+elif [[ ($helgrind_output -eq 1)&&($valgrind_output -eq 1) ]];then
 	exit 3
-else
-	exit 0
 
 fi
 exit 0
