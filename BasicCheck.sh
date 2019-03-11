@@ -1,31 +1,47 @@
-#!bin/bash
+#!/bin/bash
 dir_path="$1"
 program="$2"
-((t=0))
-cd &dir_path
-[[-f Makefile]]
-having_make=$?
-make
-secssesfullmake=$?
-if[having_make -gt 0]||[secssesfullmake -gt 0];then
-echo "Compilation FAIL "
-exit 7
-fi
-echo "Compilation PASS"
+t=0
+d=0
+cd $dir_path
+make 
+makesecsses=$?
 
-valgrind ./"$program" $@
-valgrind_outpt=$?
-if["$valgrind_output" -eq 0];then
-echo "Memory leaks PASS"
-[else
- echo "Memory FAIL" 
-((t=1))]
+if [[ ( -f Makefile)&&($makesecsses -eq "0") ]]; then
+	echo "Compilation PASS"
+else 
+	echo "Compilation FAIL"
+exit 7
+
 fi
-valgrind --tool=helgrind ./"$program"
+
+valgrind --leak-check=full --error-exitcode=1 ./$program 
+
+valgrind_output=$?
+if [[ ($valgrind_output -eq "0" ) ]];then
+	echo "Memory leaks PASS"
+else
+ echo "Memory leaks FAIL" 
+	$t=1
+fi
+valgrind --tool=helgrind --error-exitcode=1 ./$program
 helgrind_output=$?
-if["$helgrind_output" -eq 0];then
-echo "thread race PASS"
-[else 
-echo "thread race FAIL" ((t=2))]
+if [[ ($helgrind_output -eq "0") ]];then
+	echo "thread race PASS"
+else 
+	echo "thread race FAIL"
+ $d=1
 fi
-exit &t
+if [[ ($d -eq 0)&&($t1 -eq 1) ]];then
+	exit 2
+elif [[ ($d -eq 1)&&($t1 -eq 0) ]];then
+	exit 1
+elif [[ ($d -eq 0)&&($t1 -eq 0) ]];then
+	exit 0
+elif [[ ($d -eq 1)&&($t1 -eq 1) ]];then
+	exit 3
+
+fi
+exit 0
+
+## 4 2 1
