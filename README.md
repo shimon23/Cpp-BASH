@@ -8,6 +8,6 @@ in the final output the user will see one of 5 options :
 4. 3 -> only compilation work good.
 5. 7 -> compaile fail . 
 
-authors : hananel meron - 302326137.
-          shimon hagag - 311367536.
+authors : shimon hagag - 311367536.
+          hananel meron - 302326137
           yoni tseva - 316526474.
